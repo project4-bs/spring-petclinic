@@ -14,19 +14,11 @@ pipeline {
     }
     
     stages {
-        stage('Git Clone') {
+        stage('Checkout') {
             steps {
-                echo 'Git Clone'
-                git url: 'https://github.com/sjh4616/spring-petclinic.git',
-                branch: 'wavefront', credentialsId: 'github_access_token'
-            }
-            post {
-                success {
-                    echo 'success clone project'
-                }
-                failure {
-                    error 'fail clone project' // exit pipeline
-                }
+                git branch: 'wavefront',
+                    credentialsId: 'github_personal_access_token',
+                    url: 'https://github.com/project4-bs/spring-petclinic.git'
             }
         }        
         stage ('mvn Build') {
@@ -70,3 +62,4 @@ pipeline {
         }
     }
 }
+
