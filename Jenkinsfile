@@ -2,11 +2,11 @@ pipeline {
     agent any
 
     tools {
-        jdk "jdk17"
+        jdk "jdk"
         maven "M3"
     }
     environment {
-        AWS_CREDENTIAL_NAME = "AWS Credential ID"
+        AWS_CREDENTIAL_NAME = "aws credential"
         REGION = "ap-northeast-2"
         DOCKER_IMAGE_NAME="project04-ecr"
         ECR_REPOSITORY = "257307634175.dkr.ecr.ap-northeast-2.amazonaws.com"
@@ -17,7 +17,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'wavefront',
-                    credentialsId: 'github_personal_access_token',
+                    credentialsId: 'github_access_token	',
                     url: 'https://github.com/project4-bs/spring-petclinic.git'
             }
         }        
