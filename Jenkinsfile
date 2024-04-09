@@ -61,11 +61,13 @@ pipeline {
             }
         }
         stage('K8S Deploy') {
-        withKubeConfig([credentialsId: "kubernetes",
+            steps{
+                withKubeConfig([credentialsId: "kubernetes",
                         serverUrl: "https://2A258395EA5BEB5152694F9B8B5DB892.yl4.ap-northeast-2.eks.amazonaws.com",
                         clusterName: "project04-eks"]){
-            sh "aws eks --region ap-northeast-2 update-kubeconfig --name project04-eks"
-            sh "kubectl apply -f deploy.yaml"
+                            sh "aws eks --region ap-northeast-2 update-kubeconfig --name project04-eks"
+                            sh "kubectl apply -f deploy.yaml"
+                        }
              }
         }
     }
