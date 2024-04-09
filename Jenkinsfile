@@ -11,8 +11,6 @@ pipeline {
         DOCKER_IMAGE_NAME="project04-ecr"
         ECR_REPOSITORY = "257307634175.dkr.ecr.ap-northeast-2.amazonaws.com"
         ECR_DOCKER_IMAGE = "${ECR_REPOSITORY}/${DOCKER_IMAGE_NAME}"
-        EKS_CLUSTER_NAME = "project04-eks"
-        EKS_CREDENTIAL_ID = "K8S"
     }
     
     stages {
@@ -63,14 +61,13 @@ pipeline {
             }
         }
        stage('K8S Deploy') {
-            steps{
-                echo "EKS 배포 "
-                script  {
-                    sh ('aws eks update-kubeconfig --name project04-eks --region ap-northeast-2')
-                    sh "kubectl get ns"
-                    sh "kubectl apply -f deploy.yaml"
+        steps{   
+            script {
+                withKubeConfig([credentialsId: 'K8S', serverUrl: 'https://2A258395EA5BEB5152694F9B8B5DB892.yl4.ap-northeast-2.eks.amazonaws.com']) {
+                sh ('kubectl apply -f  eks-deploy-k8s.yaml')
                 }
             }
+        }
        }
     }
 }
