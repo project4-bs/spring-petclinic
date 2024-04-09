@@ -22,4 +22,22 @@ spec:
             - containerPort: 8080
               name: http
               protocol: TCP
-
+    
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-
+spec:
+  selector:
+    app: three
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+  type: NodePort
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-project04
