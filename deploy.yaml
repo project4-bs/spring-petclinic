@@ -1,33 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: project04
   labels:
-    app: project04-petclinic
-    name: project04-petclinic
+    app: project04
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
-      app:  project04-petclinic
+      app: project04
   template:
     metadata:
       labels:
-        app: project04-petclinic
+        app: project04
     spec:
       containers:
-        - name: project04-petclinic
+        - name: project04
           image: 257307634175.dkr.ecr.ap-northeast-2.amazonaws.com/project04-ecr:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
-              name: http
-              protocol: TCP
     
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: service-
+  name: service-three
 spec:
   selector:
     app: three
@@ -40,4 +38,19 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-project04
+  name: ingress-three
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: service-three
+              port:
+                number: 8080
